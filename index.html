@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PhoneGapによる位置情報の利用</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+  <meta charset="utf-8">
+
+  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+  <script type="text/javascript">
+function onBodyLoad() {
+  document.addEventListener("deviceready", onDeviceReady, false);
+}
+function onDeviceReady() {
+  getGeolocation();
+}
+
+// 位置情報の取得
+function getGeolocation() {
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+// 位置情報の取得成功時のコールバック関数
+function onSuccess(position) {
+  // Positionのプロパティから情報を取得してDOMを更新
+  document.getElementById("latitude").innerHTML = position.coords.latitude;   // 緯度
+  document.getElementById("longitude").innerHTML = position.coords.longitude; // 経度
+  document.getElementById("altitude").innerHTML = position.coords.altitude;   // 高度
+  document.getElementById("accuracy").innerHTML = position.coords.accuracy;   // 位置精度
+  document.getElementById("altitudeAccuracy").innerHTML = position.coords.altitudeAccuracy; // 高度精度
+  document.getElementById("heading").innerHTML = position.coords.heading;    // 方位
+  document.getElementById("speed").innerHTML = position.coords.speed;         // 速度
+  document.getElementById("timestamp").innerHTML = position.timestamp; // タイムスタンプ
+}
+
+// エラー時のコールバック関数
+function onError(error) {
+  alert('コード: ' + error.code + '\n' + 'メッセージ: ' + error.message + '\n');
+}
+
+  </script>
+</head>
+<body onload="onBodyLoad()">
+<h1>位置情報の取得</h1>
+<ul>
+  <li>緯度：<span id="latitude"/></li>
+  <li>経度：<span id="longitude"/></li>
+  <li>高度：<span id="altitude"/></li>
+  <li>位置精度：<span id="accuracy"/></li>
+  <li>高度精度：<span id="altitudeAccuracy"/></li>
+  <li>方位：<span id="heading"/></li>
+  <li>速度：<span id="speed"/></li>
+  <li>タイムスタンプ：<span id="timestamp"/></li>
+</ul>
+</body>
+</html>
