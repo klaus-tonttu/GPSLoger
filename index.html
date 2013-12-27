@@ -11,6 +11,7 @@
 <script type="text/javascript">
 var logstart = false;
 var deviceready = false;
+var timer;
 
 $(function(){
   document.addEventListener("deviceready", onDeviceReady, false);
@@ -29,11 +30,11 @@ $(function(){
 		$('#message').html('記録をしていません');
 	});
 
-	setTimeout( function() {
+	timer = setInterval(function() {
 		if(logstart) {
 			getGeolocation();
 		}
-	}, 10000);
+	}, 5000));
 });
 
 function onDeviceReady() {
@@ -97,6 +98,7 @@ html, body {
 <div class="btn btnLogStart" id="logStart">記録をはじめる</div>
 <div class="btn btnLogStop" id="logStop">記録をとめる</div>
 <div id="message">記録をしていません</div>
+<!--
 <ul>
   <li>緯度：<span id="latitude"/></li>
   <li>経度：<span id="longitude"/></li>
@@ -105,6 +107,7 @@ html, body {
   <li>速度：<span id="speed"/></li>
   <li>タイムスタンプ：<span id="timestamp"/></li>
 </ul>
+-->
 <div id="log"></div>
 </body>
 </html>
