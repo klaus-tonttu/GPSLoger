@@ -5,15 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
   <meta charset="utf-8">
 
-  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-  <script type="text/javascript">
-function onBodyLoad() {
-  document.addEventListener("deviceready", onDeviceReady, false);
-}
-function onDeviceReady() {
-  getGeolocation();
-}
 
+  <script type="text/javascript" charset="utf-8" src="jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+<script type="text/javascript">
+var logstart = false;
+var deviceready = false;
+
+$(function(){
+  document.addEventListener("deviceready", onDeviceReady, false);
+  $('#logStop').hide();
+
+	$('#logStart').click(function(){
+		$('#logStart').hide();
+		$('#logStop').show();
+		logstart = true;
+		$('#message').html('記録中です');
+	});
+	$('#logStop').click(function(){
+		$('#logStart').show();
+		$('#logStop').hide();
+		logstart = false;
+		$('#message').html('記録をしていません');
+	});
+
+	setTimeout( function() {
+		if(logstart) {
+			getGeolocation();
+		}
+	}, 10000);
+});
+
+function onDeviceReady() {
+  	//getGeolocation();
+	deviceready = true;
+}
 // 位置情報の取得
 function getGeolocation() {
   navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -21,34 +47,64 @@ function getGeolocation() {
 // 位置情報の取得成功時のコールバック関数
 function onSuccess(position) {
   // Positionのプロパティから情報を取得してDOMを更新
-  document.getElementById("latitude").innerHTML = position.coords.latitude;   // 緯度
-  document.getElementById("longitude").innerHTML = position.coords.longitude; // 経度
-  document.getElementById("altitude").innerHTML = position.coords.altitude;   // 高度
-  document.getElementById("accuracy").innerHTML = position.coords.accuracy;   // 位置精度
-  document.getElementById("altitudeAccuracy").innerHTML = position.coords.altitudeAccuracy; // 高度精度
-  document.getElementById("heading").innerHTML = position.coords.heading;    // 方位
-  document.getElementById("speed").innerHTML = position.coords.speed;         // 速度
-  document.getElementById("timestamp").innerHTML = position.timestamp; // タイムスタンプ
+  /*
+  $("#latitude").html(position.coords.latitude);   // 緯度
+  $("#longitude").html(position.coords.longitude); // 経度
+  $("#accuracy").html(position.coords.accuracy);   // 位置精度
+  $("#heading").html(position.coords.heading);     // 方位
+  $("#speed").html(position.coords.speed);         // 速度
+  $("#timestamp").html(position.timestamp);        // 時刻
+  */
+	var text = '/緯度:' + position.coords.latitude + '/経度:' + position.coords.longitude + '<br />/速度:' + position.coords.speed + '/時刻:' + position.timestamp;
+	$('#log').html(text + '<br />' + $('#log').html());
 }
-
 // エラー時のコールバック関数
 function onError(error) {
-  alert('コード: ' + error.code + '\n' + 'メッセージ: ' + error.message + '\n');
+  //alert('コード: ' + error.code + '\n' + 'メッセージ: ' + error.message + '\n');
 }
-
-  </script>
+</script>
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+}
+.btn {
+	border: 2px solid #b44;
+	background-color: #f44;
+	border-radius: 12px; /* CSS3草案 */  
+	-webkit-border-radius: 12px; /* Safari,Google Chrome用 */  
+	-moz-border-radius: 12px; /* Firefox用 */ 
+	color: #fff;
+	font-size: 16pt;
+	text-align: center;
+	width: 80%;
+	padding: 0.5em 0;
+	margin: 8px auto;
+	cursor: pointer;
+}
+.btnLogStop {
+	border: 2px solid #008;
+	background-color: #00b;
+}
+#message {
+	font-size: 12pt;
+	padding: 4px 1em;
+	background-color: #eee;
+}
+</style>
 </head>
-<body onload="onBodyLoad()">
-<h1>位置情報の取得</h1>
+<body>
+<div class="btn btnLogStart" id="logStart">記録をはじめる</div>
+<div class="btn btnLogStop" id="logStop">記録をとめる</div>
+<div id="message">記録をしていません</div>
 <ul>
   <li>緯度：<span id="latitude"/></li>
   <li>経度：<span id="longitude"/></li>
-  <li>高度：<span id="altitude"/></li>
   <li>位置精度：<span id="accuracy"/></li>
-  <li>高度精度：<span id="altitudeAccuracy"/></li>
   <li>方位：<span id="heading"/></li>
   <li>速度：<span id="speed"/></li>
   <li>タイムスタンプ：<span id="timestamp"/></li>
 </ul>
+<div id="log"></div>
 </body>
 </html>
