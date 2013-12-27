@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PhoneGapによる位置情報の利用</title>
+  <title>GPSLoger</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
   <meta charset="utf-8">
-
-
   <script type="text/javascript" charset="utf-8" src="jquery-1.10.2.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
 <script type="text/javascript">
@@ -34,7 +32,7 @@ $(function(){
 		if(logstart) {
 			getGeolocation();
 		}
-	}, 5000);
+	}, 3000);
 });
 
 function onDeviceReady() {
@@ -87,6 +85,13 @@ html, body {
 	border: 2px solid #008;
 	background-color: #00b;
 }
+#title {
+	font-size: 12pt;
+	padding: 4px 1em;
+	background-color: #fee;
+	font-weight: bold;
+	text-align: center;
+}
 #message {
 	font-size: 12pt;
 	padding: 4px 1em;
@@ -95,19 +100,10 @@ html, body {
 </style>
 </head>
 <body>
+<div id="title">走行記録アプリ</div>
 <div class="btn btnLogStart" id="logStart">記録をはじめる</div>
 <div class="btn btnLogStop" id="logStop">記録をとめる</div>
 <div id="message">記録をしていません</div>
-<!--
-<ul>
-  <li>緯度：<span id="latitude"/></li>
-  <li>経度：<span id="longitude"/></li>
-  <li>位置精度：<span id="accuracy"/></li>
-  <li>方位：<span id="heading"/></li>
-  <li>速度：<span id="speed"/></li>
-  <li>タイムスタンプ：<span id="timestamp"/></li>
-</ul>
--->
 <div id="log"></div>
 </body>
 </html>
