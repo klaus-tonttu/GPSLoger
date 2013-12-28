@@ -66,8 +66,21 @@ function onSuccess(position) {
   $("#speed").html(position.coords.speed);         // 速度
   $("#timestamp").html(position.timestamp);        // 時刻
   */
-	var text = '/緯度:' + position.coords.latitude + '/経度:' + position.coords.longitude + '<br />/速度:' + position.coords.speed + '/時刻:' + position.timestamp;
+	var text = '/緯度:' + position.coords.latitude + '/経度:' + position.coords.longitude + '<br />/速度:' + position.coords.speed + '/時刻:' + position.timestamp + '/' + deviceID + '/' + status;
 	$('#log').html(text + '<br />' + $('#log').html());
+	//
+	var url = "http://tonttu.net/test/GPSLoger/log.php";
+	url += "lat=" + position.coords.latitude;   // 緯度
+	url += "&lng=" + position.coords.longitude; // 経度
+	url += "&hed=" + position.coords.heading;   // 方位
+	url += "&spd=" + position.coords.speed;     // 速度
+	url += "&tim=" + position.timestamp;        // 時刻
+	url += "&uid=" + deviceID;                  // デバイスID
+	url += "&sts=" + status;                    // ステータス
+	
+	$.get(url, function(){});
+	
+
 }
 // エラー時のコールバック関数
 function onError(error) {
@@ -83,7 +96,7 @@ function onError(error) {
 	text-align: center;
 }
 #log {
-	font-size: 10pt;
+	font-size: 12pt;
 	padding: 4px 1em;
 }
 #message {
