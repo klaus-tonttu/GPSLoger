@@ -26,13 +26,13 @@ $(function(){
 		$('#logStart').hide();
 		$('#logStop').show();
 		logstart = true;
-		$('#message').html('記録中です');
+		$('#message').html('記録をしていません');
 	});
 	$('#logStop').click(function(){
 		$('#logStart').show();
 		$('#logStop').hide();
 		logstart = false;
-		$('#message').html('記録をしていません');
+		$('#message').html('記録中です');
 	});
 
 	$('.btnStatus:first').addClass('btn-info');
@@ -81,6 +81,10 @@ function onError(error) {
 	background-color: #fee;
 	font-weight: bold;
 	text-align: center;
+}
+#log {
+	font-size: 10pt;
+	padding: 4px 1em;
 }
 #message {
 	font-size: 12pt;
